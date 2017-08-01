@@ -111,6 +111,18 @@ function Write-Log
     } 
 }
 
+function CheckIfValueIsNotEmpty($value)
+{
+    if([string]::IsNullOrEmpty($value))
+    {
+        return $null
+    }
+    else
+    {
+        return $value
+    }
+}
+
 Import-Module ActiveDirectory
 
 $importedData = Import-Csv -Path $ImportFilePath -Delimiter ";"
@@ -127,10 +139,32 @@ foreach($user in $importedData)
        }
         
        Write-Host $output
+       
+       $login = $user.Login
+       $displayName = $user.Name
+       $mobile = $user.Mobile
+       $cc = $user.CC
+       $businessUnit = $user.BusinessUnit
+       $department = $user.Department
+       $office = $user.Department
 
-       $cmd = [ScriptBlock]::Create("Get-ADUser -Identity '$($user.Login)' | Set-ADUser -DisplayName '$($user.Name)' -MobilePhone '$($user.Mobile)' -Office '$($user.CC)' -Organization '$($user.BusinessUnit)' -Department '$($user.Department)' -OfficePhone '$($user.Phone)'")
- 
-       $cmd.Invoke()             
+       if([string]::IsNullOrEmpty($login) -or [string]::IsNullOrEmpty($displayName))
+       {
+            Write-Log -Message "Error: The attributes login or display name cannot be null" -Level Error -Path $logPath            
+       }
+       else
+       {
+            #if some of the values are empty, it fills with $null
+
+            $mobile = (CheckIfValueIsNotEmpty $mobile)
+            $cc = (CheckIfValueIsNotEmpty $cc)
+            $businessUnit = (CheckIfValueIsNotEmpty $businessUnit)
+            $department = (CheckIfValueIsNotEmpty $department)
+            $office = (CheckIfValueIsNotEmpty $office)
+
+            Get-ADUser -Identity $login | Set-ADUser -DisplayName $displayName -MobilePhone $mobile -Office $cc -Organization $businessUnit -Department $department -OfficePhone $office
+       }
+        
     }
 
     catch
