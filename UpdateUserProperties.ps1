@@ -160,9 +160,9 @@ foreach($user in $importedData)
             $cc = (CheckIfValueIsNotEmpty $cc)
             $businessUnit = (CheckIfValueIsNotEmpty $businessUnit)
             $department = (CheckIfValueIsNotEmpty $department)
-            $officePhone = (CheckIfValueIsNotEmpty $officePhone)
+            $officePhone = (CheckIfValueIsNotEmpty $officePhone)            
 
-            Get-ADUser -Identity $login | Set-ADUser -DisplayName $displayName -MobilePhone $mobile -Office $cc -Organization $businessUnit -Department $department -OfficePhone $officePhone
+            Get-ADUser -Identity $login | Set-ADUser -DisplayName $displayName -MobilePhone $mobile -Office $cc -Company $businessUnit -Department $department -OfficePhone $officePhone
        }
         
     }
