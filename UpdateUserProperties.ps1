@@ -146,7 +146,7 @@ foreach($user in $importedData)
        $cc = $user.CC
        $businessUnit = $user.BusinessUnit
        $department = $user.Department
-       $office = $user.Department
+       $officePhone = $user.Phone
 
        if([string]::IsNullOrEmpty($login) -or [string]::IsNullOrEmpty($displayName))
        {
@@ -160,9 +160,9 @@ foreach($user in $importedData)
             $cc = (CheckIfValueIsNotEmpty $cc)
             $businessUnit = (CheckIfValueIsNotEmpty $businessUnit)
             $department = (CheckIfValueIsNotEmpty $department)
-            $office = (CheckIfValueIsNotEmpty $office)
+            $officePhone = (CheckIfValueIsNotEmpty $officePhone)
 
-            Get-ADUser -Identity $login | Set-ADUser -DisplayName $displayName -MobilePhone $mobile -Office $cc -Organization $businessUnit -Department $department -OfficePhone $office
+            Get-ADUser -Identity $login | Set-ADUser -DisplayName $displayName -MobilePhone $mobile -Office $cc -Organization $businessUnit -Department $department -OfficePhone $officePhone
        }
         
     }
