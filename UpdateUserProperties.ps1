@@ -1,6 +1,6 @@
 # Script UpdateUserProperties
 <# .SYNOPSIS
-     Script que update Active Directory Properties
+     Script updates Active Directory Properties
 .DESCRIPTION
      It was built to update all Active Directory Properties based on a CSV file
      Example of file format
